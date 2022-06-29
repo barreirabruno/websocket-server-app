@@ -1,0 +1,12 @@
+{
+  "name": "webservice-template-2022-barreiradev",
+  "version": "1.0.0",
+  "description": "Webservice template for nodejs projects - 2022",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Bruno Barreira",
+  "license": "ISC"
+}
