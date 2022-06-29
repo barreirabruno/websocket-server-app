@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx rimraf dist && tsc -p tsconfig-build.json",
     "start": "node dist/index.js",
-    "test": "jest --passWithNoTests --no-cache --runInBand"
+    "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test:watch": "npm run test -- --watch"
   },
   "keywords": [],
   "author": "Bruno Barreira",
