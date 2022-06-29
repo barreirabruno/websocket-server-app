@@ -4,6 +4,8 @@
   "description": "Webservice template for nodejs projects - 2022",
   "main": "index.js",
   "scripts": {
+    "build": "npx rimraf dist && tsc -p tsconfig-build.json",
+    "start": "node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
