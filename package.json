@@ -33,6 +33,8 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
+    "@types/chalk": "^2.2.0",
+    "chalk": "4.1.0",
     "ws": "^8.8.1"
   }
 }
