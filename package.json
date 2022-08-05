@@ -1,7 +1,7 @@
 {
-  "name": "webservice-template-2022-barreiradev",
+  "name": "websocket-mini-game-app",
   "version": "1.0.0",
-  "description": "Webservice template for nodejs projects - 2022",
+  "description": "websocket mini game app, clients can connect and answer question testing their knowledge",
   "main": "index.js",
   "scripts": {
     "build": "npx rimraf dist && tsc -p tsconfig-build.json",
