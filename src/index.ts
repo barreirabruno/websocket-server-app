@@ -44,6 +44,13 @@ const serverEvents = {
     event: 'server:challenge:correct',
     content: ' *** CORRECT, KEEP PLAYING *** ',
     id: '5'
+  },
+  6: {
+    event: 'server:game:mainmenu',
+    content: gameMenu()
+  },
+  7: {
+    event: 'server:game:end'
   }
 }
 
@@ -54,10 +61,20 @@ interface Challenge {
   correct: string
 }
 
+function gameMenu (): string[] {
+  const options = ['start', 'end']
+  return options.map((option, index) => {
+    return `[${index}] - ${option}`
+  })
+}
+
 function randomChallenge (challenges: Challenge[]): Challenge {
   const min = 1
-  const max = challenges.length
-  const random = Math.floor(Math.random() * (max - min + 1) + 1)
+  const max = challenges.length - 1
+  let random = Math.floor(Math.random() * (max - min + 1) + 1)
+  if (random > max) {
+    random = Math.floor(Math.random() * (max - min + 1) + 1)
+  }
   return challenges[random]
 }
 
@@ -69,21 +86,32 @@ webSocketServer.on('connection', function connection (socket) {
   socket.on('message', function message (data: Buffer) {
     const eventFromClient: Event = JSON.parse(data.toString())
     switch (eventFromClient.event) {
+      case 'client:game:mainmenu':
+        socket.send(JSON.stringify(serverEvents[6]))
+        break
       case 'client:challenge:new':
         newChallenge.event = JSON.stringify(randomChallenge(challenges))
+        console.log('[SERVER]: ', newChallenge)
         socket.send(JSON.stringify(serverEvents[1]))
         break
       case 'client:challenge:answer':
         socket.send(JSON.stringify(serverEvents[2]))
         break
       case 'client:challenge:check':
-        // console.log('[CHECK USER ANSWER]')
-        // console.log('[FROM CLIENT]: ', eventFromClient)
+        // console.log('[CHECK ANSWER]: ', eventFromClient.userAnswer)
+        // console.log('[CHECK ANSWER]: ', parseInt(eventFromClient.userAnswer ?? ''))
+        // serverEvents[4].gamemetadata.turn += 1
         if (!checkUserAnswer(parseInt(eventFromClient.userAnswer ?? ''), eventFromClient.currentQuestion ?? '')) {
+          // serverEvents[4].gamemetadata.scoreboard += 1
           socket.send(JSON.stringify(serverEvents[4]))
           break
         }
         socket.send(JSON.stringify(serverEvents[5]))
+        break
+      case 'client:game:end':
+        console.log('[IT WAS A GREAT MATCH, BUT IT ENDS]')
+        // console.log('[YOUR POINTS]: ', eventFromClient.scoreboard)
+        socket.send(JSON.stringify(serverEvents[7]))
         break
     }
   })
