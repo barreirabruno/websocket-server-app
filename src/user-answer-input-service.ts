@@ -1,23 +1,21 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { stdin } = process
-const chalk = require('chalk')
+import * as readline from 'readline'
 
-const log = console.log
-
-async function prompt (): Promise<number> {
-  return await new Promise((resolve, reject) => {
-    log(chalk.black.bgGreenBright('[**** TYPE THE NUMBER OF YOUR ANSWER *** ]'))
-
-    stdin.on('data', function (data) {
-      const userData = parseInt(data.toString().trim())
-      log(chalk.black.bgGreenBright('[YOU CHOOSE OPTION] '), userData)
-      log(chalk.black.bgGreenBright('[--- LETS CHECK ---]] '))
-      resolve(userData)
+const askOnCommandLine = async (message: any): Promise<any> =>
+  await new Promise((resolve) => {
+    const p = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      prompt: message
     })
-    stdin.on('error', err => reject(err))
-  })
-}
 
-export const userAnswerInput = async (): Promise<number> => {
-  return await prompt()
+    p.on('line', (input) => {
+      resolve(input)
+      p.close()
+    })
+
+    p.prompt()
+  })
+
+export const userAnswerInput = async (message: string): Promise<number> => {
+  return await askOnCommandLine(message)
 }
