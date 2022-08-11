@@ -7,6 +7,10 @@ It is a game where players can connect on a websocket server and answer multiple
 Each player has three turns.\
 Each correct answer add scoreboard points.\
 
+## Demo
+
+[Click to view a video demo of this project](https://youtu.be/z4Tgs4dNnBs)
+
 ## Features available
 
 ## Built with
